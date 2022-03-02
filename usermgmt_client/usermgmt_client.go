@@ -39,4 +39,11 @@ func main() {
 		}
 		log.Println(" Created user is: ", r.GetName(), " Age: ", r.GetAge(), " Uuid: ", r.GetUuid())
 	}
+	params := &pb.GetUsersParams{}
+	response, err := client.GetUsers(ctx, params)
+	if err != nil {
+		println("Error getting users: ", err)
+	}
+	u := response.GetUsers()
+	log.Printf("Users from get users : %v ", u[0])
 }

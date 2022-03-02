@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package usermgmt;
+//name of the module.
+option go_package = "github.com/tjoe1985/hello_grpc.git;go_usermgmt_grpc";
+
+service UserManagement{
+  /*
+    Declare service method as follows
+    rpc <MethodName> (<Input for service Method>) returns (<return type>){}
+  */
+  rpc CreateNewUser (NewUser) returns (User){}
+  rpc GetUsers (GetUsersParams) returns (UserList){}
+}
+// define message NewUser
+message NewUser {
+  string name = 1;
+  int32 age = 2;
+}
+
+message User {
+  string name = 1;
+  int32 age = 2;
+  string uuid = 3;
+}
+message GetUsersParams{}
+message UserList{
+  //keyword to create a list "repeated"
+  repeated User users = 1;
+}
+/*
+  using the proto compiler to generate protobuf files as follows:
+    protoc --go_out=<current directory> --go_opt=<relative to the source> --go-grpc_out=<current directory> --go-grpc_opt=<relative to the source>  <directory for proto file>
+    protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative usermgmt/usermgmt.proto
+
+*/
